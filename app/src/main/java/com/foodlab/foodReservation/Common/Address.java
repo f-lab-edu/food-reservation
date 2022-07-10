@@ -1,6 +1,7 @@
 package com.foodlab.foodReservation.Common;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -10,6 +11,7 @@ import javax.persistence.Embeddable;
 @Getter
 @Embeddable
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
 public class Address {
 
     private Double longitude;
