@@ -18,12 +18,12 @@ public class StoreController {
     @PostMapping("/stores")
     public CreateStoreResponse createStore(@RequestBody @Valid CreateStoreRequest request) {
         Address address = Address.createAddress(request.getLongitude(), request.getLatitude(), request.getZipcode());
-        Long storeId = storeService.create(request.getStoreName(), address, request.getSellerId());
+        Long storeId = storeService.createStore(request.getStoreName(), address, request.getSellerId());
         return new CreateStoreResponse(storeId);
     }
 
     @DeleteMapping("/stores/{id}")
     public void deleteStore(@PathVariable("id") Long id) {
-        storeService.delete(id);
+        storeService.deleteStore(id);
     }
 }

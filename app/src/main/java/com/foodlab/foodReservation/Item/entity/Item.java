@@ -1,6 +1,7 @@
 package com.foodlab.foodReservation.Item.entity;
 
 import com.foodlab.foodReservation.Store.entity.Store;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 import static javax.persistence.FetchType.*;
 
 @Entity
+@Getter
 public class Item {
 
     @Id
