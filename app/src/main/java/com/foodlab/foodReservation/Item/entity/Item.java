@@ -24,4 +24,11 @@ public class Item {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
+
+    private boolean deleted = false;
+
+    /** 비즈니스 메서드 **/
+    public void delete() {
+        this.deleted = true;
+    }
 }

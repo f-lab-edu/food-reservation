@@ -5,9 +5,7 @@ import com.foodlab.foodReservation.Store.dto.CreateStoreRequest;
 import com.foodlab.foodReservation.Store.dto.CreateStoreResponse;
 import com.foodlab.foodReservation.Store.service.StoreService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -22,5 +20,10 @@ public class StoreController {
         Address address = Address.createAddress(request.getLongitude(), request.getLatitude(), request.getZipcode());
         Long storeId = storeService.create(request.getStoreName(), address, request.getSellerId());
         return new CreateStoreResponse(storeId);
+    }
+
+    @DeleteMapping("/stores/{id}")
+    public void deleteStore(@PathVariable("id") Long id) {
+        storeService.delete(id);
     }
 }

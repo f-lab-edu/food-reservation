@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,8 @@ public class Store {
     @OneToMany(mappedBy = "store")
     private List<Item> items = new ArrayList<>();
 
+    private boolean deleted;
+
     /** 연관관계 메서드 **/
     public void setSeller(Seller seller) {
         this.seller = seller;
@@ -46,6 +49,13 @@ public class Store {
         store.name = name;
         store.address = address;
         store.setSeller(seller);
+        store.deleted = false;
         return store;
+    }
+
+    /** 비즈니스 메서드 **/
+    public void delete() {
+        this.deleted = true;
+        items.forEach(Item::delete);
     }
 }
