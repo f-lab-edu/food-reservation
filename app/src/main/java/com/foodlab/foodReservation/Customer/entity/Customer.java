@@ -1,4 +1,6 @@
-package com.foodlab.foodReservation.domain;
+package com.foodlab.foodReservation.Customer.entity;
+
+import com.foodlab.foodReservation.Order.entity.Order;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

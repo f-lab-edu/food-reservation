@@ -1,4 +1,6 @@
-package com.foodlab.foodReservation.domain;
+package com.foodlab.foodReservation.Item.entity;
+
+import com.foodlab.foodReservation.Store.entity.Store;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

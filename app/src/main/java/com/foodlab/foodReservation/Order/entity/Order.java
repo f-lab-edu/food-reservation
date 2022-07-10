@@ -1,4 +1,8 @@
-package com.foodlab.foodReservation.domain;
+package com.foodlab.foodReservation.Order.entity;
+
+import com.foodlab.foodReservation.Customer.entity.Customer;
+import com.foodlab.foodReservation.Common.OrderStatus;
+import com.foodlab.foodReservation.Store.entity.Store;
 
 import javax.persistence.*;
 
