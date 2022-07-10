@@ -25,7 +25,23 @@ public class Item {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    private boolean deleted = false;
+    private boolean deleted;
+
+    /** 연관관계 메서드 **/
+    public void setStore(Store store) {
+        this.store = store;
+        store.getItems().add(this);
+    }
+
+    /** 생성자 **/
+    public static Item createItem(String name, String description, Store store) {
+        Item item = new Item();
+        item.name = name;
+        item.description = description;
+        item.setStore(store);
+        item.deleted = false;
+        return item;
+    }
 
     /** 비즈니스 메서드 **/
     public void delete() {
