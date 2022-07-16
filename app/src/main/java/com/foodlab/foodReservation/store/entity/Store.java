@@ -42,11 +42,24 @@ public class Store {
     @OneToMany(mappedBy = "store")
     private List<Orders> orderList = new ArrayList<>();
 
+    private boolean deleted;
 
     public void update(StoreUpdateDto storeUpdateDto, Address newAddress) {
         this.name = storeUpdateDto.getName();
         this.seller = storeUpdateDto.getSeller();
         this.address = newAddress;
+    }
+
+    public Store(String name, Address address, Seller seller) {
+        this.name = name;
+        this.address = address;
+        setSeller(seller);
+        deleted = false;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+        seller.getStoreList().add(this);
     }
 
 }
