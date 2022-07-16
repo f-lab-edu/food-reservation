@@ -3,6 +3,7 @@ package com.foodlab.foodReservation.seller.entity;
 import com.foodlab.foodReservation.store.entity.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import java.util.List;
 
 
 @Entity
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
