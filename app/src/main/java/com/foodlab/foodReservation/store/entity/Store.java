@@ -1,6 +1,7 @@
 package com.foodlab.foodReservation.store.entity;
 
 import com.foodlab.foodReservation.common.Address;
+import com.foodlab.foodReservation.item.entity.Item;
 import com.foodlab.foodReservation.order.entity.Orders;
 import com.foodlab.foodReservation.seller.entity.Seller;
 import com.foodlab.foodReservation.store.dto.request.StoreUpdateDto;
@@ -42,6 +43,9 @@ public class Store {
     @OneToMany(mappedBy = "store")
     private List<Orders> orderList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "store")
+    private List<Item> itemList = new ArrayList<>();
+
     private boolean deleted;
 
     public void update(StoreUpdateDto storeUpdateDto, Address newAddress) {
@@ -62,4 +66,8 @@ public class Store {
         seller.getStoreList().add(this);
     }
 
+    public void delete() {
+        this.deleted = true;
+        itemList.forEach(Item::delete); // 상점에 등록된 메뉴(item)도 모두 삭제
+    }
 }
