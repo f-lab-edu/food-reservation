@@ -25,6 +25,11 @@ public class Item {
 
     private boolean deleted;
 
+    public void updateItem(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
     public void delete() {
         this.deleted = true;
     }
