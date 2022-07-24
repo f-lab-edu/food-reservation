@@ -14,10 +14,11 @@ public class CreateStoreRequest {
     public static final String addressBlankErrorMsg = "상점 주소는 꼭 입력해야 합니다.";
 
     public static final String longitudeRangeErrorMsg = "경도의 값은 -180도 이상, 180도 이하여야 합니다.";
-    public static final String longitudeNullErrorMsg = "경도의 값은 널이 될 수 없습니다.";
+    public static final String longitudeNullErrorMsg = "경도의 값은 꼭 입력해야 합니다.";
 
     public static final String latitudeRangeErrorMsg = "위도의 값은 -90도 이상, 90도 이하여야 합니다.";
-    public static final String latitudeNullErrorMsg = "위도의 값은 널이 될 수 없습니다.";
+    public static final String latitudeNullErrorMsg = "위도의 값은 꼭 입력해야 합니다.";
+
     public static final String zipCodeBlankErrorMsg = "상점 우편번호는 꼭 입력해야 합니다.";
 
 
@@ -44,5 +45,3 @@ public class CreateStoreRequest {
     private String zipCode;
 
 }
-
-

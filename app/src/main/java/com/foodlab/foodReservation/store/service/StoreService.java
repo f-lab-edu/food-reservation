@@ -37,6 +37,7 @@ public class StoreService {
         return new CreateStoreResponse(savedStore.getId());
     }
 
+    @Transactional
     public void deleteStore(Long storeId) {
         Store store = storeRepository.findById(storeId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 음식점입니다."));
