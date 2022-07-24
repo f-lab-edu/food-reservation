@@ -4,7 +4,6 @@ import com.foodlab.foodReservation.common.Address;
 import com.foodlab.foodReservation.item.entity.Item;
 import com.foodlab.foodReservation.order.entity.Orders;
 import com.foodlab.foodReservation.seller.entity.Seller;
-import com.foodlab.foodReservation.store.dto.request.StoreUpdateDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,10 +47,10 @@ public class Store {
 
     private boolean deleted;
 
-    public void update(StoreUpdateDto storeUpdateDto, Address newAddress) {
-        this.name = storeUpdateDto.getName();
-        this.seller = storeUpdateDto.getSeller();
-        this.address = newAddress;
+    public void update(String name, Seller seller, Address address) {
+        this.name = name;
+        this.seller = seller;
+        this.address = address;
     }
 
     public Store(String name, Address address, Seller seller) {
