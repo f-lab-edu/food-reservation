@@ -1,70 +1,99 @@
 package com.foodlab.foodReservation.store;
 
+
 import com.foodlab.foodReservation.common.Address;
 import com.foodlab.foodReservation.seller.entity.Seller;
 import com.foodlab.foodReservation.seller.repository.SellerRepository;
-import com.foodlab.foodReservation.store.dto.request.StoreUpdateDto;
+import com.foodlab.foodReservation.store.dto.request.UpdateStoreRequest;
+import com.foodlab.foodReservation.store.dto.response.StoreDetailDto;
+import com.foodlab.foodReservation.store.dto.response.UpdateStoreResponse;
 import com.foodlab.foodReservation.store.entity.Store;
 import com.foodlab.foodReservation.store.repository.StoreRepository;
+import com.foodlab.foodReservation.store.service.StoreService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
+
+@ExtendWith(MockitoExtension.class)
 class StoreServiceTest {
 
-    @Autowired
-    private StoreRepository storeRepository;
-    @Autowired
-    private SellerRepository sellerRepository;
+    @Mock
+    StoreRepository storeRepository;
+
+    @Mock
+    SellerRepository sellerRepository;
+
+    @InjectMocks
+    StoreService storeService;
 
     @Test
-    @DisplayName("음식점 정보 수정")
-    void updateStoreTest() {
+    @DisplayName("음식점 정보 수정 성공")
+    void updateStore() {
 
         // given
         Address address = Address.builder()
-                .address("testAddress1")
-                .longitude(131)
-                .latitude(37)
-                .zipCode("07007")
+                .address("서울역")
+                .longitude(129.041621)
+                .latitude(35.114928)
+                .zipCode("04320")
                 .build();
-
         Seller seller = Seller.builder()
-                .username("testSeller1")
-                .password("testPassword1")
+                .username("test_user")
+                .password("test_password")
                 .build();
-        Seller seller1 = sellerRepository.save(seller);
-
+        when(sellerRepository.findById(1L)).thenReturn(Optional.of(seller));
         Store store = Store.builder()
-                .name("testStore1")
+                .seller(seller)
+                .name("스타벅스_서울역점")
                 .address(address)
-                .seller(seller1)
                 .build();
-
-        storeRepository.save(store);
+        when(storeRepository.findById(1L)).thenReturn(Optional.of(store));
 
         // when
-        Store savedStore = storeRepository.findById(1L).orElseThrow(IllegalArgumentException::new);
-
-        StoreUpdateDto storeUpdateDto = new StoreUpdateDto();
-        storeUpdateDto.setName("testStore2");
-        storeUpdateDto.setAddress("testAddress2");
-
-        Address address2 = Address.builder()
-                .address("testAddress2")
-                .longitude(132)
-                .latitude(38)
-                .zipCode("07008")
+        UpdateStoreRequest updateStoreRequest = UpdateStoreRequest.builder()
+                .name("스타벅스_부산역점")
+                .address("부산역")
+                .longitude(129.041418419)
+                .latitude(35.115078556)
+                .zipCode("48731")
+                .sellerId(1L)
                 .build();
-
-        savedStore.update(storeUpdateDto, address2);
+        UpdateStoreResponse updatedStore = storeService.updateStore(1L, updateStoreRequest);
 
         // then
-        assertEquals(savedStore.getName(), "testStore2");
+        StoreDetailDto resultStore = storeService.getStore(updatedStore.getStoreId());
+        assertEquals(resultStore.getName(), "스타벅스_부산역점");
+        assertEquals(resultStore.getAddress().getAddress(), "부산역");
+        assertEquals(resultStore.getAddress().getLongitude(), 129.041418419);
+        assertEquals(resultStore.getAddress().getLatitude(), 35.115078556);
+        assertEquals(resultStore.getAddress().getLatitude(), 35.115078556);
+        assertEquals(resultStore.getAddress().getZipCode(), "48731");
+    }
+
+    @Test
+    @DisplayName("음식점 정보 수정 실패 - 존재하지 않는 음식점")
+    void updateStoreFail() {
+
+        // given
+        when(storeRepository.findById(1L)).thenReturn(Optional.empty());
+
+        // when
+        UpdateStoreRequest updateStoreRequest = UpdateStoreRequest.builder().build();
+
+        // then
+        assertThrows(IllegalArgumentException.class,
+                () -> storeService.updateStore(1L, updateStoreRequest));
+
     }
 
 }
