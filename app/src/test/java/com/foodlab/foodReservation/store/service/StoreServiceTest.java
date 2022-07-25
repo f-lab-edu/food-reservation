@@ -5,7 +5,7 @@ import com.foodlab.foodReservation.common.Address;
 import com.foodlab.foodReservation.seller.entity.Seller;
 import com.foodlab.foodReservation.seller.repository.SellerRepository;
 import com.foodlab.foodReservation.store.dto.request.UpdateStoreRequest;
-import com.foodlab.foodReservation.store.dto.response.StoreDetailDto;
+import com.foodlab.foodReservation.store.dto.response.StoreDetailResponse;
 import com.foodlab.foodReservation.store.dto.response.UpdateStoreResponse;
 import com.foodlab.foodReservation.store.entity.Store;
 import com.foodlab.foodReservation.store.repository.StoreRepository;
@@ -71,7 +71,7 @@ class StoreServiceTest {
         UpdateStoreResponse updatedStore = storeService.updateStore(1L, updateStoreRequest);
 
         // then
-        StoreDetailDto resultStore = storeService.getStore(updatedStore.getStoreId());
+        StoreDetailResponse resultStore = storeService.getStore(updatedStore.getStoreId());
         assertEquals(resultStore.getName(), "스타벅스_부산역점");
         assertEquals(resultStore.getAddress().getAddress(), "부산역");
         assertEquals(resultStore.getAddress().getLongitude(), 129.041418419);

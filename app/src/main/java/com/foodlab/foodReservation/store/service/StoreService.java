@@ -6,7 +6,7 @@ import com.foodlab.foodReservation.seller.repository.SellerRepository;
 import com.foodlab.foodReservation.store.dto.request.CreateStoreRequest;
 import com.foodlab.foodReservation.store.dto.request.UpdateStoreRequest;
 import com.foodlab.foodReservation.store.dto.response.CreateStoreResponse;
-import com.foodlab.foodReservation.store.dto.response.StoreDetailDto;
+import com.foodlab.foodReservation.store.dto.response.StoreDetailResponse;
 import com.foodlab.foodReservation.store.dto.response.UpdateStoreResponse;
 import com.foodlab.foodReservation.store.entity.Store;
 import com.foodlab.foodReservation.store.repository.StoreRepository;
@@ -56,9 +56,9 @@ public class StoreService {
         store.delete();
     }
 
-    public StoreDetailDto getStore(Long storeId) {
+    public StoreDetailResponse getStore(Long storeId) {
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new IllegalArgumentException("존재하는 음식점이 아닙니다."));
-        return new StoreDetailDto(store.getId(), store.getName(), store.getAddress());
+        return new StoreDetailResponse(store.getId(), store.getName(), store.getAddress());
     }
 
 }
