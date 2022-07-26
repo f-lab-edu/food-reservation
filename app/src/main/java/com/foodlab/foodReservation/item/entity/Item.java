@@ -2,7 +2,6 @@ package com.foodlab.foodReservation.item.entity;
 
 import com.foodlab.foodReservation.store.entity.Store;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,9 +14,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class Item {
 
     @Id
@@ -33,7 +30,29 @@ public class Item {
 
     private boolean deleted;
 
+    public void setStore(Store store) {
+        this.store = store;
+        store.getItemList().add(this);
+    }
+
+    /*
+    Item 생성자
+    - Store와 양방향 연관관계를 지정하며 Item을 생성한다.
+     */
+    public Item(String name, int price, Store store) {
+        this.name = name;
+        this.price = price;
+        this.setStore(store);
+        this.deleted = false;
+    }
+
+    public void updateItem(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
     public void delete() {
         this.deleted = true;
     }
+
 }
