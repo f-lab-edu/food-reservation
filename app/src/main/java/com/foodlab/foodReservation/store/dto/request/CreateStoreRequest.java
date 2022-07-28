@@ -1,6 +1,9 @@
 package com.foodlab.foodReservation.store.dto.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -8,6 +11,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateStoreRequest {
 
     public static final String nameBlankErrorMsg = "상점 이름은 꼭 입력해야 합니다.";

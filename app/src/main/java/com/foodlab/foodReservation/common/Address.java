@@ -1,6 +1,5 @@
 package com.foodlab.foodReservation.common;
 
-import com.foodlab.foodReservation.store.dto.request.StoreUpdateDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,12 +18,5 @@ public class Address {
     private double longitude;
     private double latitude;
     private String zipCode;
-
-    public Address(StoreUpdateDto storeUpdateDto) {
-        this.address = storeUpdateDto.getAddress();
-        this.longitude = storeUpdateDto.getLongitude();
-        this.latitude = storeUpdateDto.getLatitude();
-        this.zipCode = storeUpdateDto.getZipCode();
-    }
 
 }

@@ -2,8 +2,9 @@ package com.foodlab.foodReservation.store.controller;
 
 
 import com.foodlab.foodReservation.store.dto.request.CreateStoreRequest;
-import com.foodlab.foodReservation.store.dto.request.StoreUpdateDto;
+import com.foodlab.foodReservation.store.dto.request.UpdateStoreRequest;
 import com.foodlab.foodReservation.store.dto.response.CreateStoreResponse;
+import com.foodlab.foodReservation.store.dto.response.UpdateStoreResponse;
 import com.foodlab.foodReservation.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,9 +31,9 @@ public class StoreController {
     }
 
     @PutMapping("/store/{storeId}")
-    public ResponseEntity<Void> updateStore(@PathVariable Long storeId, @Valid @RequestBody StoreUpdateDto storeUpdateDto) {
-        storeService.updateStore(storeId, storeUpdateDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<UpdateStoreResponse> updateStore(@PathVariable Long storeId, @Valid @RequestBody UpdateStoreRequest updateStoreRequest) {
+        UpdateStoreResponse updateStoreResponse = storeService.updateStore(storeId, updateStoreRequest);
+        return new ResponseEntity<>(updateStoreResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/store/{storeId}")
