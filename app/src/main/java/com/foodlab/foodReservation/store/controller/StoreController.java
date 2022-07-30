@@ -4,6 +4,7 @@ package com.foodlab.foodReservation.store.controller;
 import com.foodlab.foodReservation.store.dto.request.CreateStoreRequest;
 import com.foodlab.foodReservation.store.dto.request.UpdateStoreRequest;
 import com.foodlab.foodReservation.store.dto.response.CreateStoreResponse;
+import com.foodlab.foodReservation.store.dto.response.DeleteStoreResponse;
 import com.foodlab.foodReservation.store.dto.response.UpdateStoreResponse;
 import com.foodlab.foodReservation.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,8 @@ public class StoreController {
     private final StoreService storeService;
 
     @PostMapping("/stores")
-    public ResponseEntity<CreateStoreResponse> createStore(@RequestBody @Valid CreateStoreRequest createStoreDto) {
-        CreateStoreResponse response = storeService.createStore(createStoreDto);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public CreateStoreResponse createStore(@RequestBody @Valid CreateStoreRequest createStoreDto) {
+        return storeService.createStore(createStoreDto);
     }
 
     @PutMapping("/store/{storeId}")
@@ -37,9 +37,8 @@ public class StoreController {
     }
 
     @DeleteMapping("/store/{storeId}")
-    public ResponseEntity<Void> deleteStore(@PathVariable Long storeId) {
-        storeService.deleteStore(storeId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public DeleteStoreResponse deleteStore(@PathVariable Long storeId) {
+        return storeService.deleteStore(storeId);
     }
 
 }
