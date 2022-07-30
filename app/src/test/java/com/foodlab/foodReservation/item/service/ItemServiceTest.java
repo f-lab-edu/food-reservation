@@ -25,6 +25,13 @@ class ItemServiceTest {
     @InjectMocks
     ItemService itemService;
 
+    UpdateItemRequest getValidUpdateItemRequest() {
+        return UpdateItemRequest.builder()
+                .name("누구나 좋아하는 하와이안 피자")
+                .price(11000)
+                .build();
+    }
+
     @DisplayName("메뉴 수정 요청이 들어왔을 때, 메뉴가 존재하면 메뉴가 수정되어야 합니다.")
     @Test
     void updateItemShouldUpdateItemWhenItemFound() {
@@ -34,9 +41,7 @@ class ItemServiceTest {
 
         when(itemRepository.findById(123L)).thenReturn(Optional.of(item));
 
-        UpdateItemRequest request = new UpdateItemRequest();
-        request.setName("누구나 좋아하는 하와이안 피자");
-        request.setPrice(11000);
+        UpdateItemRequest request = getValidUpdateItemRequest();
 
         // when
         itemService.updateItem(123L, request);
@@ -56,7 +61,7 @@ class ItemServiceTest {
         // given
         when(itemRepository.findById(123L)).thenReturn(Optional.empty());
 
-        UpdateItemRequest request = new UpdateItemRequest();
+        UpdateItemRequest request = getValidUpdateItemRequest();
 
         // then
         assertThrows(IllegalArgumentException.class, () -> itemService.updateItem(123L, request));
