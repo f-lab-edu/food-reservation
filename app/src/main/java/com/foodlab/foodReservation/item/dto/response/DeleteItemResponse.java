@@ -1,12 +1,11 @@
 package com.foodlab.foodReservation.item.dto.response;
 
+
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@Getter
 @AllArgsConstructor
-public class CreateItemResponse {
+public class DeleteItemResponse {
 
-    private final Long savedItemId;
+    private final Long deletedItemId;
 
 }
