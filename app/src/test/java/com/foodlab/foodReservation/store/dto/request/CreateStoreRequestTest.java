@@ -17,21 +17,22 @@ class CreateStoreRequestTest {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-    CreateStoreRequest getValidCreateStoreRequest() {
-        CreateStoreRequest request = new CreateStoreRequest();
-        request.setName("Son Heung Min");
-        request.setAddress("서울시");
-        request.setLongitude(12.0);
-        request.setLatitude(12.0);
-        request.setZipCode("123-456");
-
-        return request;
-    }
+    private final String validName = "홍콩반점";
+    private final String validAddress = "서울시";
+    private final Double validLongitude = 12.0;
+    private final Double validLatitude = 12.0;
+    private final String validZipCode = "123-456";
 
     @Test
     void validDtoShouldBeValid() {
         // given
-        CreateStoreRequest request = getValidCreateStoreRequest();
+        CreateStoreRequest request = CreateStoreRequest.builder()
+                .name(validName)
+                .address(validAddress)
+                .longitude(validLongitude)
+                .latitude(validLatitude)
+                .zipCode(validZipCode)
+                .build();
 
         // when
         Set<ConstraintViolation<CreateStoreRequest>> validate = validator.validate(request);
@@ -45,8 +46,13 @@ class CreateStoreRequestTest {
     @ValueSource(strings = {"  ", "   ", "\t", "\n"})
     void blankNameShouldViolate(String name) {
         // given
-        CreateStoreRequest request = getValidCreateStoreRequest();
-        request.setName(name);
+        CreateStoreRequest request = CreateStoreRequest.builder()
+                .name(name)
+                .address(validAddress)
+                .longitude(validLongitude)
+                .latitude(validLatitude)
+                .zipCode(validZipCode)
+                .build();
 
         // when
         Set<ConstraintViolation<CreateStoreRequest>> validate = validator.validate(request);
@@ -60,8 +66,13 @@ class CreateStoreRequestTest {
     @ValueSource(strings = {"Kim", "Lee", "Park", "random name"})
     void notBlankNameShouldBeValid(String name) {
         // given
-        CreateStoreRequest request = getValidCreateStoreRequest();
-        request.setName(name);
+        CreateStoreRequest request = CreateStoreRequest.builder()
+                .name(name)
+                .address(validAddress)
+                .longitude(validLongitude)
+                .latitude(validLatitude)
+                .zipCode(validZipCode)
+                .build();
 
         // when
         Set<ConstraintViolation<CreateStoreRequest>> validate = validator.validate(request);
@@ -75,8 +86,13 @@ class CreateStoreRequestTest {
     @ValueSource(strings = {"  ", "   ", "\t", "\n"})
     void blankAddressShouldViolate(String address) {
         // given
-        CreateStoreRequest request = getValidCreateStoreRequest();
-        request.setAddress(address);
+        CreateStoreRequest request = CreateStoreRequest.builder()
+                .name(validName)
+                .address(address)
+                .longitude(validLongitude)
+                .latitude(validLatitude)
+                .zipCode(validZipCode)
+                .build();
 
         // when
         Set<ConstraintViolation<CreateStoreRequest>> validate = validator.validate(request);
@@ -90,8 +106,13 @@ class CreateStoreRequestTest {
     @ValueSource(strings = {"Seoul ABC Street", "Taipei", "Somewhere in the world"})
     void notBlankAddressShouldBeValid(String address) {
         // given
-        CreateStoreRequest request = getValidCreateStoreRequest();
-        request.setAddress(address);
+        CreateStoreRequest request = CreateStoreRequest.builder()
+                .name(validName)
+                .address(address)
+                .longitude(validLongitude)
+                .latitude(validLatitude)
+                .zipCode(validZipCode)
+                .build();
 
         // when
         Set<ConstraintViolation<CreateStoreRequest>> validate = validator.validate(request);
@@ -104,8 +125,13 @@ class CreateStoreRequestTest {
     @MethodSource("longitudeTestArgumentsProvider")
     void longitudeOutSidePlusMinus180ShouldViolate(Double longitude, String errorMsg) {
         // given
-        CreateStoreRequest request = getValidCreateStoreRequest();
-        request.setLongitude(longitude);
+        CreateStoreRequest request = CreateStoreRequest.builder()
+                .name(validName)
+                .address(validAddress)
+                .longitude(longitude)
+                .latitude(validLatitude)
+                .zipCode(validZipCode)
+                .build();
 
         // when
         Set<ConstraintViolation<CreateStoreRequest>> validate = validator.validate(request);
@@ -129,8 +155,13 @@ class CreateStoreRequestTest {
     @ValueSource(doubles = {180.0, 92.4, 0, -103.2, -180.0})
     void longitudeWithinPlusMinus180ShouldBeValid(Double longitude) {
         // given
-        CreateStoreRequest request = getValidCreateStoreRequest();
-        request.setLongitude(longitude);
+        CreateStoreRequest request = CreateStoreRequest.builder()
+                .name(validName)
+                .address(validAddress)
+                .longitude(longitude)
+                .latitude(validLatitude)
+                .zipCode(validZipCode)
+                .build();
 
         // when
         Set<ConstraintViolation<CreateStoreRequest>> validate = validator.validate(request);
@@ -143,8 +174,13 @@ class CreateStoreRequestTest {
     @MethodSource("latitudeTestArgumentsProvider")
     void latitudeOutSidePlusMinus90ShouldViolate(Double latitude, String errorMsg) {
         // given
-        CreateStoreRequest request = getValidCreateStoreRequest();
-        request.setLatitude(latitude);
+        CreateStoreRequest request = CreateStoreRequest.builder()
+                .name(validName)
+                .address(validAddress)
+                .longitude(validLongitude)
+                .latitude(latitude)
+                .zipCode(validZipCode)
+                .build();
 
         // when
         Set<ConstraintViolation<CreateStoreRequest>> validate = validator.validate(request);
@@ -168,8 +204,13 @@ class CreateStoreRequestTest {
     @ValueSource(doubles = {90.0, 30.9, 0, -47.8, -90.0})
     void latitudeWithinPlusMinus90ShouldBeValid(Double latitude) {
         // given
-        CreateStoreRequest request = getValidCreateStoreRequest();
-        request.setLatitude(latitude);
+        CreateStoreRequest request = CreateStoreRequest.builder()
+                .name(validName)
+                .address(validAddress)
+                .longitude(validLongitude)
+                .latitude(latitude)
+                .zipCode(validZipCode)
+                .build();
 
         // when
         Set<ConstraintViolation<CreateStoreRequest>> validate = validator.validate(request);
@@ -183,8 +224,13 @@ class CreateStoreRequestTest {
     @ValueSource(strings = {"  ", "   ", "\t", "\n"})
     void blankZipCodeShouldViolate(String zipCode) {
         // given
-        CreateStoreRequest request = getValidCreateStoreRequest();
-        request.setZipCode(zipCode);
+        CreateStoreRequest request = CreateStoreRequest.builder()
+                .name(validName)
+                .address(validAddress)
+                .longitude(validLongitude)
+                .latitude(validLatitude)
+                .zipCode(zipCode)
+                .build();
 
         // when
         Set<ConstraintViolation<CreateStoreRequest>> validate = validator.validate(request);
@@ -198,8 +244,13 @@ class CreateStoreRequestTest {
     @ValueSource(strings = {"0923-234", "3891123", "A"})
     void notBlankZipCodeShouldViolate(String zipCode) {
         // given
-        CreateStoreRequest request = getValidCreateStoreRequest();
-        request.setZipCode(zipCode);
+        CreateStoreRequest request = CreateStoreRequest.builder()
+                .name(validName)
+                .address(validAddress)
+                .longitude(validLongitude)
+                .latitude(validLatitude)
+                .zipCode(zipCode)
+                .build();
 
         // when
         Set<ConstraintViolation<CreateStoreRequest>> validate = validator.validate(request);

@@ -1,11 +1,11 @@
 package com.foodlab.foodReservation.store.dto.response;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class CreateStoreResponse {
 
-    private Long storeId;
+    private final Long storeId;
 
     public CreateStoreResponse(Long id) {
         this.storeId = id;

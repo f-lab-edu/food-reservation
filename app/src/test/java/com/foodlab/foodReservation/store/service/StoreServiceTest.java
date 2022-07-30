@@ -33,22 +33,21 @@ class StoreServiceTest {
     @InjectMocks
     StoreService storeService;
 
-    CreateStoreRequest getCreateStoreRequest() {
-        CreateStoreRequest request = new CreateStoreRequest();
-        request.setSellerId(1);
-        request.setName("Son");
-        request.setAddress("Seoul");
-        request.setLongitude(100.0);
-        request.setLatitude(90.0);
-        request.setZipCode("123");
-        return request;
+    CreateStoreRequest getValidStore() {
+        return CreateStoreRequest.builder()
+                .name("홍콩반점")
+                .address("서울시")
+                .longitude(29.3)
+                .latitude(59.1)
+                .zipCode("123-456")
+                .build();
     }
 
     @DisplayName("상점 생성 요청이 들어왔을 때, 판매자가 존재하면 상점이 생성되어야 합니다.")
     @Test
     void createStoreShouldCreateStoreIfSellerFound() {
         // given
-        CreateStoreRequest request = getCreateStoreRequest();
+        CreateStoreRequest request = getValidStore();
         Seller seller = new Seller();
         Store store = new Store();
 
@@ -76,7 +75,7 @@ class StoreServiceTest {
     @Test
     void createStoreShouldThrowIfSellerNotFound() {
         // given
-        CreateStoreRequest request = getCreateStoreRequest();
+        CreateStoreRequest request = getValidStore();
 
         when(sellerRepository.findById(request.getSellerId()))
                 .thenReturn(Optional.empty());   // seller not found
@@ -118,6 +117,5 @@ class StoreServiceTest {
         // then
         assertThrows(IllegalArgumentException.class, () -> storeService.deleteStore(214L));
     }
-
 
 }
