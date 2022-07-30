@@ -2,17 +2,15 @@ package com.foodlab.foodReservation.store.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class CreateStoreRequest {
 
@@ -29,25 +27,25 @@ public class CreateStoreRequest {
 
 
     // TODO: 일시적 필드. 추후 인증 기능에서 sellerId를 가져오게 된다면 이 필드는 삭제 예정.
-    private long sellerId;
+    private final long sellerId;
 
     @NotBlank(message = nameBlankErrorMsg)
-    private String name;
+    private final String name;
 
     @NotBlank(message = addressBlankErrorMsg)
-    private String address;
+    private final String address;
 
     @DecimalMax(value = "180.0", message = longitudeRangeErrorMsg)
     @DecimalMin(value = "-180.0", message = longitudeRangeErrorMsg)
     @NotNull(message = longitudeNullErrorMsg)
-    private Double longitude;
+    private final Double longitude;
 
     @DecimalMax(value = "90.0", message = latitudeRangeErrorMsg)
     @DecimalMin(value = "-90.0", message = latitudeRangeErrorMsg)
     @NotNull(message = latitudeNullErrorMsg)
-    private Double latitude;
+    private final Double latitude;
 
     @NotBlank(message = zipCodeBlankErrorMsg)
-    private String zipCode;
+    private final String zipCode;
 
 }
