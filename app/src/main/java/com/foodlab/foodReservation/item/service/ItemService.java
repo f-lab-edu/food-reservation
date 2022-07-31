@@ -46,7 +46,7 @@ public class ItemService {
         Item item = itemRepository.findById(itemId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 매뉴입니다."));
         item.delete();
-        return new DeleteItemResponse(item.getId());
+        return new DeleteItemResponse(item.getId(), item.isDeleted());
     }
 
 }
