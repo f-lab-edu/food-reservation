@@ -29,6 +29,7 @@ public class ItemController {
         return itemService.updateItem(itemId, updateItemRequest);
     }
 
+
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/items")
     public CreateItemResponse createItem(@RequestBody @Valid CreateItemRequest createItemRequest) {
