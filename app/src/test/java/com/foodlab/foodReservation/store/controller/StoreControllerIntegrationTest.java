@@ -13,12 +13,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest
+@WebMvcTest(controllers = StoreController.class)
 class StoreControllerIntegrationTest {
 
     @Autowired
@@ -42,14 +43,13 @@ class StoreControllerIntegrationTest {
                 .name("홍콩반점")
                 .zipCode("123-456")
                 .build();
-        String content = objectMapper.writeValueAsString(validRequest);
-
-        when(storeService.createStore(validRequest)).thenReturn(new CreateStoreResponse(25L));
+        when(storeService.createStore(any(CreateStoreRequest.class)))
+                .thenReturn(new CreateStoreResponse(25L));
 
         // then
         mockMvc.perform(post("/stores")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(content)
+                        .content(objectMapper.writeValueAsString(validRequest))
                 )
                 .andDo(print())
                 .andExpect(status().isCreated())
@@ -69,12 +69,11 @@ class StoreControllerIntegrationTest {
                 .name(null) // @NotBlank violation
                 .zipCode("123-456")
                 .build();
-        String content = objectMapper.writeValueAsString(badRequest);
 
         // then
         mockMvc.perform(post("/stores")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(content)
+                        .content(objectMapper.writeValueAsString(badRequest))
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest());
@@ -94,14 +93,12 @@ class StoreControllerIntegrationTest {
                 .name("홍콩반점")
                 .zipCode("123-456")
                 .build();
-        String content = objectMapper.writeValueAsString(validRequest);
-
         when(storeService.createStore(validRequest)).thenThrow(new IllegalArgumentException("some error message"));
 
         // then
         mockMvc.perform(post("/stores")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(content)
+                        .content(objectMapper.writeValueAsString(validRequest))
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
