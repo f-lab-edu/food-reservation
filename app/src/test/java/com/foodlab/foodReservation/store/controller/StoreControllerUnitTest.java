@@ -2,6 +2,7 @@ package com.foodlab.foodReservation.store.controller;
 
 import com.foodlab.foodReservation.store.dto.request.CreateStoreRequest;
 import com.foodlab.foodReservation.store.dto.response.CreateStoreResponse;
+import com.foodlab.foodReservation.store.dto.response.DeleteStoreResponse;
 import com.foodlab.foodReservation.store.service.StoreService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,10 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -26,20 +24,30 @@ class StoreControllerUnitTest {
     @InjectMocks
     StoreController storeController;
 
+    /* Validation 위배되지 않는 CreateStoreRequest 인스턴스 생성 */
+    CreateStoreRequest getValidCreateStoreRequest() {
+        return CreateStoreRequest.builder()
+                .name("홍콩반점")
+                .address("서울시")
+                .longitude(12.0)
+                .latitude(12.0)
+                .zipCode("123-456")
+                .build();
+    }
+
     @DisplayName("상점 생성 수행")
     @Test
     void createStoreShouldCreateStoreAndReturn() {
 
         // given
-        CreateStoreRequest request = new CreateStoreRequest();
+        CreateStoreRequest request = getValidCreateStoreRequest();
         when(storeService.createStore(request)).thenReturn(new CreateStoreResponse(23L));
 
         // when
-        ResponseEntity<CreateStoreResponse> response = storeController.createStore(request);
+        CreateStoreResponse response = storeController.createStore(request);
 
         // then
-        assertEquals(HttpStatus.CREATED,response.getStatusCode());
-        assertEquals(23L , Objects.requireNonNull(response.getBody()).getStoreId());
+        assertEquals(23L, response.getStoreId());
 
         verify(storeService).createStore(request);
 
@@ -50,7 +58,7 @@ class StoreControllerUnitTest {
     void createStoreShouldThrowWhenServiceRejects() {
 
         // given
-        CreateStoreRequest request = new CreateStoreRequest();
+        CreateStoreRequest request = getValidCreateStoreRequest();
         when(storeService.createStore(request)).thenThrow(new IllegalArgumentException("잘못된 요청입니다."));
 
         // then
@@ -64,11 +72,16 @@ class StoreControllerUnitTest {
     @Test
     void deleteStoreShouldDeleteStore() {
 
+        // given
+        when(storeService.deleteStore(45L)).thenReturn(new DeleteStoreResponse(45L));
+
         // when
-        ResponseEntity<Void> response = storeController.deleteStore(45L);
+        DeleteStoreResponse response = storeController.deleteStore(45L);
 
         // then
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(45L, response.getStoreId());
+
+        verify(storeService).deleteStore(45L);
 
     }
 
