@@ -5,6 +5,7 @@ import com.foodlab.foodReservation.item.dto.request.CreateItemRequest;
 import com.foodlab.foodReservation.item.dto.request.UpdateItemRequest;
 import com.foodlab.foodReservation.item.dto.response.CreateItemResponse;
 import com.foodlab.foodReservation.item.dto.response.DeleteItemResponse;
+import com.foodlab.foodReservation.item.dto.response.UpdateItemResponse;
 import com.foodlab.foodReservation.item.entity.Item;
 import com.foodlab.foodReservation.item.repository.ItemRepository;
 import com.foodlab.foodReservation.seller.entity.Seller;
@@ -34,13 +35,6 @@ class ItemServiceTest {
     @InjectMocks
     ItemService itemService;
 
-    UpdateItemRequest getValidUpdateItemRequest() {
-        return UpdateItemRequest.builder()
-                .name("누구나 좋아하는 하와이안 피자")
-                .price(11000)
-                .build();
-    }
-
     @DisplayName("메뉴 수정 요청이 들어왔을 때, 메뉴가 존재하면 메뉴가 수정되어야 합니다.")
     @Test
     void updateItemShouldUpdateItemWhenItemFound() {
@@ -50,14 +44,19 @@ class ItemServiceTest {
 
         when(itemRepository.findById(123L)).thenReturn(Optional.of(item));
 
-        UpdateItemRequest request = getValidUpdateItemRequest();
+        UpdateItemRequest request = UpdateItemRequest.builder()
+                .name("누구나 좋아하는 하와이안 피자")
+                .price(11000)
+                .build();
 
         // when
-        itemService.updateItem(123L, request);
+        UpdateItemResponse response = itemService.updateItem(123L, request);
 
         // then
         assertEquals("누구나 좋아하는 하와이안 피자", item.getName());
+        assertEquals("누구나 좋아하는 하와이안 피자", response.getName());
         assertEquals(11000, item.getPrice());
+        assertEquals(11000, response.getPrice());
 
         verify(itemRepository).findById(123L);
 
@@ -70,7 +69,10 @@ class ItemServiceTest {
         // given
         when(itemRepository.findById(123L)).thenReturn(Optional.empty());
 
-        UpdateItemRequest request = getValidUpdateItemRequest();
+        UpdateItemRequest request = UpdateItemRequest.builder()
+                .name("누구나 좋아하는 하와이안 피자")
+                .price(11000)
+                .build();
 
         // then
         assertThrows(IllegalArgumentException.class, () -> itemService.updateItem(123L, request));

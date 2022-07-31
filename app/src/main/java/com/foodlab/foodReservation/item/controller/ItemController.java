@@ -4,10 +4,10 @@ import com.foodlab.foodReservation.item.dto.request.CreateItemRequest;
 import com.foodlab.foodReservation.item.dto.request.UpdateItemRequest;
 import com.foodlab.foodReservation.item.dto.response.CreateItemResponse;
 import com.foodlab.foodReservation.item.dto.response.DeleteItemResponse;
+import com.foodlab.foodReservation.item.dto.response.UpdateItemResponse;
 import com.foodlab.foodReservation.item.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +25,8 @@ public class ItemController {
     private final ItemService itemService;
 
     @PutMapping("/items/{itemId}")
-    public ResponseEntity<Void> updateItem(@PathVariable("itemId") Long itemId, @RequestBody @Valid UpdateItemRequest updateItemRequest) {
-        itemService.updateItem(itemId, updateItemRequest);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public UpdateItemResponse updateItem(@PathVariable("itemId") Long itemId, @RequestBody @Valid UpdateItemRequest updateItemRequest) {
+        return itemService.updateItem(itemId, updateItemRequest);
     }
 
     @ResponseStatus(HttpStatus.OK)
