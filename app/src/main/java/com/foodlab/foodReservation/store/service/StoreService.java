@@ -6,6 +6,7 @@ import com.foodlab.foodReservation.seller.repository.SellerRepository;
 import com.foodlab.foodReservation.store.dto.request.CreateStoreRequest;
 import com.foodlab.foodReservation.store.dto.request.UpdateStoreRequest;
 import com.foodlab.foodReservation.store.dto.response.CreateStoreResponse;
+import com.foodlab.foodReservation.store.dto.response.DeleteStoreResponse;
 import com.foodlab.foodReservation.store.dto.response.StoreDetailResponse;
 import com.foodlab.foodReservation.store.dto.response.UpdateStoreResponse;
 import com.foodlab.foodReservation.store.entity.Store;
@@ -51,10 +52,11 @@ public class StoreService {
     }
 
     @Transactional
-    public void deleteStore(Long storeId) {
+    public DeleteStoreResponse deleteStore(Long storeId) {
         Store store = storeRepository.findById(storeId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 음식점입니다."));
         store.delete();
+        return new DeleteStoreResponse(storeId);
     }
 
     public StoreDetailResponse getStore(Long storeId) {
@@ -63,4 +65,3 @@ public class StoreService {
     }
 
 }
-
