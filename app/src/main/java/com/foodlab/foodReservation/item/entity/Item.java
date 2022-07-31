@@ -2,6 +2,7 @@ package com.foodlab.foodReservation.item.entity;
 
 import com.foodlab.foodReservation.store.entity.Store;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +15,9 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Item {
 
     @Id
