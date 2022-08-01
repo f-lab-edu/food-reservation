@@ -4,16 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foodlab.foodReservation.store.dto.request.CreateStoreRequest;
 import com.foodlab.foodReservation.store.dto.response.CreateStoreResponse;
 import com.foodlab.foodReservation.store.service.StoreService;
+import org.hamcrest.core.Is;
+import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -53,7 +57,7 @@ class StoreControllerIntegrationTest {
                 )
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("storeId", org.hamcrest.core.Is.is(25)));
+                .andExpect(jsonPath("storeId", Is.is(25)));
 
     }
 
@@ -80,12 +84,14 @@ class StoreControllerIntegrationTest {
 
     }
 
-    // TODO: API 예외 처리 코드 추가 필요 - 아직 아래의 테스트를 통과하지 못한다.
-    @DisplayName("상점 생성 거부 - 서비스에서 상점 생성 요청에 대해 거부(예외 발생)하면 400 상태 메시지를 반환해야 합니다.")
+    @DisplayName("상점 생성 거부 - 서비스에서 상점 생성 요청에 대해 IllegalArgumentException이 발생하면 400 상태 메시지를 반환해야 합니다.")
     @Test
     void createStoreShouldFailWhenServiceRejects() throws Exception {
 
         // given
+        when(storeService.createStore(any(CreateStoreRequest.class)))
+                .thenThrow(new IllegalArgumentException("some error message"));
+
         CreateStoreRequest validRequest = CreateStoreRequest.builder()
                 .address("서울시")
                 .latitude(12.34)
@@ -93,7 +99,6 @@ class StoreControllerIntegrationTest {
                 .name("홍콩반점")
                 .zipCode("123-456")
                 .build();
-        when(storeService.createStore(validRequest)).thenThrow(new IllegalArgumentException("some error message"));
 
         // then
         mockMvc.perform(post("/stores")
@@ -102,7 +107,13 @@ class StoreControllerIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("success", Is.is(false)))
+                .andExpect(jsonPath("statusCode", Is.is(HttpStatus.BAD_REQUEST.value())))
+                .andExpect(jsonPath("errorMessage", Is.is("some error message")))
+                .andExpect(jsonPath("data", IsNull.nullValue()));
+
+        verify(storeService).createStore(any(CreateStoreRequest.class));
 
     }
 
