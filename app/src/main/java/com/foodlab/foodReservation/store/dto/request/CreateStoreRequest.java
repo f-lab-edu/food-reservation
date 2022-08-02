@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
-@AllArgsConstructor
+@AllArgsConstructor // (Builder 가 필요로 하는 AllArgsConstructor 를 명시적으로 제공하기 위해 추가)
 public class CreateStoreRequest {
 
     public static final String nameBlankErrorMsg = "상점 이름은 꼭 입력해야 합니다.";
