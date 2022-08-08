@@ -2,7 +2,9 @@
 
 ## API Schema
 
-## Conventions
+## Rules
+- [Git branch naming](document/rules/git-branch-naming.md)
+- [GitHub PR naming](document/rules/github-pr-naming.md)
 
 ## Technical Issues
 기술적으로 고민했던 부분을 정리하였습니다.
