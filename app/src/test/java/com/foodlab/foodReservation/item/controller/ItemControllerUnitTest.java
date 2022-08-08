@@ -59,7 +59,7 @@ public class ItemControllerUnitTest {
     @Test
     void deleteItemSuccess() {
         // given
-        when(itemController.deleteItem(1L)).thenReturn(new DeleteItemResponse(1L, true));
+        when(itemService.deleteItem(1L)).thenReturn(new DeleteItemResponse(1L, true));
 
         // expected
         assertEquals(itemController.deleteItem(1L).getDeletedItemId(), 1L);
