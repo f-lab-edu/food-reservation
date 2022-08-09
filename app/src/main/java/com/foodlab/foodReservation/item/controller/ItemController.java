@@ -24,13 +24,14 @@ public class ItemController {
 
     private final ItemService itemService;
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/items/{itemId}")
     public UpdateItemResponse updateItem(@PathVariable("itemId") Long itemId, @RequestBody @Valid UpdateItemRequest updateItemRequest) {
         return itemService.updateItem(itemId, updateItemRequest);
     }
 
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/items")
     public CreateItemResponse createItem(@RequestBody @Valid CreateItemRequest createItemRequest) {
         return itemService.createItem(createItemRequest);
