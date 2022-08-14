@@ -25,4 +25,23 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+
+    filter {
+        excludeTestsMatching '*IntegrationTest*'
+        excludeTestsMatching '*ApplicationTest*'
+    }
+}
+
+tasks.register('integrationTest', Test) {
+    group 'verification'
+
+    useJUnitPlatform()
+
+    filter {
+        includeTestsMatching '*IntegrationTest*'
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('integrationTest')
 }
