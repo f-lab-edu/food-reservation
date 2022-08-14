@@ -53,7 +53,7 @@ class StoreControllerIntegrationTest {
                         .content(objectMapper.writeValueAsString(validRequest))
                 )
                 .andDo(print())
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("storeId", Is.is(25)));
 
     }
