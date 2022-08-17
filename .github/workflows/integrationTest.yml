@@ -19,5 +19,4 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Execute Gradle Integration Test
-        id: gradle
         run: ./gradlew integrationTest --scan
