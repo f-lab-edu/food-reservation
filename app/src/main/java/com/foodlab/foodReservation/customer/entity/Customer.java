@@ -28,5 +28,8 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Orders> orderList = new ArrayList<>();
 
+    public Customer(String email) {
+        this.email = email;
+    }
 }
 
