@@ -6,9 +6,6 @@ on:
       - main
     paths-ignore:
       - 'document/**'
-  push:
-    paths-ignore:
-      - 'document/**'
 
 env:
   DOCKERHUB_USER_NAME: oldrabbit736
