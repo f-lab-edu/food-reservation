@@ -1,6 +1,9 @@
 name: Test
 
-on: [pull_request]
+on:
+  pull_request:
+    paths-ignore:
+      - 'document/**'
 
 jobs:
   run-tests:
@@ -20,5 +23,5 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: Execute Gradle check task
+      - name: Check
         run: ./gradlew check --scan
