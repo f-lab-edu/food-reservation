@@ -1,11 +1,13 @@
 package com.foodlab.foodReservation.auth.token;
 
 import com.foodlab.foodReservation.auth.config.UserInfo;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -21,16 +23,16 @@ public class JwtFilter extends GenericFilterBean {
 
     private final JwtProvider jwtProvider;
 
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String token = ((HttpServletRequest)request).getHeader("accessToken");
-        System.out.println("token = " + token);
+        String accessToken = ((HttpServletRequest)request).getHeader("Authorization");
 
-        if (token != null && jwtProvider.verifyToken(token)) {
-
-            String email = jwtProvider.getCustomerEmail(token);
+        if (StringUtils.hasText(accessToken) && accessToken.startsWith("Bearer ")) {
+            Claims claims = jwtProvider.getJwtContents(accessToken.substring(7, accessToken.length()));
             UserInfo userInfo = UserInfo.builder()
-                    .email(email)
+                    .id((long)(int) claims.get("id"))
+                    .email((String) claims.get("email"))
                     .build();
 
             Authentication auth = getAuthentication(userInfo);

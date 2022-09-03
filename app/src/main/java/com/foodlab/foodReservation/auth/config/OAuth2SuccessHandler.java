@@ -27,19 +27,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
         UserInfo userInfo = customerRequestMapper.toDto(oAuth2User);
-        Token token = jwtProvider.generateToken(userInfo.getEmail(), "CUSTOMER");
+        Token token = jwtProvider.generateToken(userInfo.getId(), userInfo.getEmail(), "ROLE_CUSTOMER");
         writeTokenResponse(response, token);
     }
 
     private void writeTokenResponse(HttpServletResponse response, Token token) throws IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        response.addHeader("accessToken", token.getAccessToken());
-        response.addHeader("refreshToken", token.getRefreshToken());
         response.setContentType("application/json;charset=UTF-8");
-
         PrintWriter writer = response.getWriter();
         writer.println(objectMapper.writeValueAsString(token));
         writer.flush();
     }
-
 }

@@ -13,10 +13,13 @@ import java.util.Collection;
 @Getter
 @NoArgsConstructor
 public class UserInfo implements UserDetails {
+
+    private Long id;
     private String email;
 
     @Builder
-    public UserInfo(String email) {
+    public UserInfo(Long id, String email) {
+        this.id = id;
         this.email = email;
     }
 

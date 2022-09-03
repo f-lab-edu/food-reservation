@@ -27,12 +27,14 @@ public class JwtProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public Token generateToken(String customerEmail, String role) {
+    public Token generateToken(Long id, String email, String role) {
 
         long tokenPeriod = 1000L * 60L * 10L * 3L;
         long refreshPeriod = 1000L * 60L * 60L * 24L * 30L * 3L;
 
-        Claims claims = Jwts.claims().setSubject(customerEmail);
+        Claims claims = Jwts.claims();
+        claims.put("id", id);
+        claims.put("email", email);
         claims.put("role", role);
 
         Date now = new Date();
@@ -69,7 +71,11 @@ public class JwtProvider {
         }
     }
 
-    public String getCustomerEmail(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    public Claims getJwtContents(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token).getBody();
+        return claims;
     }
+
 }

@@ -3,6 +3,7 @@ package com.foodlab.foodReservation.customer.entity;
 
 import com.foodlab.foodReservation.order.entity.Orders;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Customer {
 
     @Id

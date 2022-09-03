@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/token/**", "/login/oauth2/code/kakao").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .oauth2Login().loginPage("/token/expired")
+                .oauth2Login()
                 .successHandler(successHandler)
                 .userInfoEndpoint().userService(oAuth2UserService);
 
