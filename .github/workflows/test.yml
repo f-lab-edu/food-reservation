@@ -1,7 +1,12 @@
-name: Integration Test
-on: [pull_request]
+name: Test
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'document/**'
+
 jobs:
-  integration-test:
+  run-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,5 +23,5 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: Execute Gradle Integration Test
-        run: ./gradlew integrationTest --scan
+      - name: Check
+        run: ./gradlew check --scan
