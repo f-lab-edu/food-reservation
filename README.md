@@ -1,5 +1,31 @@
 # food-reservation
 
+## 프로젝트 실행 방법
+프로젝트 실행, 개발을 위해 스크립트가 준비되어 있습니다.
+* 로컬에서 프로젝트 실행
+  * docker compose를 이용하여 프로젝트에 필요한 모든 서비스들을 로컬에서 생성하고 실행합니다.
+  * 실행 방법
+    * 터미널을 프로젝트 루트에 위치시킨 후 아래의 명령어를 입력해 주세요.
+      * ```shell
+        $ export JEP=... # jasypt encryptor password 값을 "JEP" 환경변수에 넣어줍니다.    
+        $ sh script/dev.sh # 스크립트를 실행합니다.
+        ```
+        
+<br>
+
+* 로컬에서 앱을 제외한 환경(db 등)만 세팅
+  * docker compose를 이용하여 로컬에서 앱을 제외한 나머지 서비스들을 실행합니다.
+  * 이 후, IDE 등을 이용해 로컬에서 앱을 개발합니다.
+  * 실행 방법
+      * 터미널을 프로젝트 루트에 위치시킨 후 아래의 명령어를 입력해 주세요.
+        * ```shell
+          $ sh script/dev-env.sh
+          ```
+      * IDE 실행 옵션을 다음과 같이 세팅한 후 앱을 실행시킵니다.
+        * spring.active.profile=dev
+        * JEP=...
+         
+
 ## API Schema
 
 ## Rules
