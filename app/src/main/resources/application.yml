@@ -4,3 +4,4 @@ spring:
       - "optional:classpath:config/db/"
       - "optional:classpath:config/hibernate/"
       - "optional:classpath:config/jasypt/"
+      - "optional:classpath:config/auth/"
