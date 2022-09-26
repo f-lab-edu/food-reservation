@@ -5,13 +5,12 @@ import com.foodlab.foodReservation.seller.entity.Seller;
 import com.foodlab.foodReservation.seller.repository.SellerRepository;
 import com.foodlab.foodReservation.store.dto.request.CreateStoreRequest;
 import com.foodlab.foodReservation.store.dto.request.UpdateStoreRequest;
-import com.foodlab.foodReservation.store.dto.response.CreateStoreResponse;
-import com.foodlab.foodReservation.store.dto.response.DeleteStoreResponse;
-import com.foodlab.foodReservation.store.dto.response.StoreDetailResponse;
-import com.foodlab.foodReservation.store.dto.response.UpdateStoreResponse;
+import com.foodlab.foodReservation.store.dto.response.*;
 import com.foodlab.foodReservation.store.entity.Store;
 import com.foodlab.foodReservation.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,6 +61,10 @@ public class StoreService {
     public StoreDetailResponse getStore(Long storeId) {
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new IllegalArgumentException("존재하는 음식점이 아닙니다."));
         return new StoreDetailResponse(store.getId(), store.getName(), store.getAddress());
+    }
+
+    public Page<StoreListResponse> getStores(Pageable pageable) {
+        return storeRepository.getStores(pageable);
     }
 
 }
