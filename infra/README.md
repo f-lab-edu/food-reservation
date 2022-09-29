@@ -51,11 +51,11 @@ Terraform Cloud에 프로젝트의 infra 구성 결과(.tfstate 파일)를 저�
 - NCP console에서 생성된 리소스를 확인합니다.
 - Terraform cloud에서 지정한 organization, food-reservation workspace에 리소스 구성 결과가 저장되어 있는지 확인합니다.
 
-## Step 5 - 서버에 ssh 접속, 초기화
-생성된 public ip를 통해 서버에 ssh 접속 확인합니다.
+## Step 5 (optional) - 서버에 ssh 접속
+필요시 생성된 public ip를 통해 서버에 ssh 접속 확인합니다.
 - ssh 접속합니다.
   ```shell
   $ ssh root@<public ip> -p 22
   ```
   - 필요한 public ip, root password는 food-reservation workspace의 "States"에서 확인할 수 있습니다.
-- infra/server-scripts 안의 스크립트들을 실행시켜서 초기화 시켜줍니다.
+- 필요한 소프트웨어가 설치되었는지 확인합니다. (docker 등)
