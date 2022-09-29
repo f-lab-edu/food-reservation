@@ -45,6 +45,12 @@ resource "ncloud_server" "server_public" {
   login_key_name            = ncloud_login_key.login_key.key_name
 }
 
+/*
+Init Script 리소스를 이용하여 installing-docker.sh 실행 시도 시 실패
+- server 가 init script 실행 하는 시점이, server 생성은 되었지만 public ip 는 아직 생성 및 부착되기 전
+- 즉, 인터넷 연결을 못 하는 시점에 init script 실행이 되어 인터넷으로 docker 를 설치하려 하므로 설치 실패하게 됨
+- 번거롭지만 null_resource, provisioner 를 사용하여 직접 스크립트를 복사하고 실행하는 것으로 해결함
+*/
 # Server 초기화 스크립트 실행을 위한 null_resource, provisioners
 resource "null_resource" "server_init" {
   connection {
