@@ -1,8 +1,9 @@
+#!/bin/bash
 # https://docs.docker.com/engine/install/ubuntu/
 
-## Set up the repository
 sudo apt-get update
-sudo apt-get install \
+# modified: -y added
+sudo apt-get -y install \
 ca-certificates \
 curl \
 gnupg \
@@ -15,7 +16,6 @@ echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-
-## Install Docker Engine
 sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+# modified: -y added
+sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
