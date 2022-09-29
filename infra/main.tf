@@ -77,10 +77,6 @@ resource "null_resource" "server_init" {
       "sh food-reservation/infra/server-scripts/installing-docker.sh"
     ]
   }
-
-  #  provisioner "remote-exec" {
-  #    script = "./server-scripts/installing-docker.sh"
-  #  }
 }
 
 # Public IP
