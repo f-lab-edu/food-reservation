@@ -23,11 +23,11 @@ Terraform Cloud에 프로젝트의 infra 구성 결과(.tfstate 파일)를 저�
   - ncp_secret_key
     - category: Terraform variable
     - key: ncp_secret_key
-    - value: NCP의 Access Key ID 값
+    - value: NCP의 Secret Key ID 값
   - ncp_access_key
     - category: Terraform variable
     - key: ncp_access_key
-    - value: NCP의 Secret Key 값
+    - value: NCP의 Access Key 값
   - 참고: "Sensitive" 란을 체크하면 웹 페이지에서 값을 안 보이도록 할 수 있기에 설정하는 게 보안에 더 좋습니다.
 
 ## Step 4 - 인프라 생성
