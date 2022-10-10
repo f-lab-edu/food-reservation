@@ -1,10 +1,12 @@
 package com.foodlab.foodReservation.store.service;
 
 import com.foodlab.foodReservation.common.Address;
+import com.foodlab.foodReservation.item.repository.ItemRepository;
 import com.foodlab.foodReservation.seller.entity.Seller;
 import com.foodlab.foodReservation.seller.repository.SellerRepository;
 import com.foodlab.foodReservation.store.dto.request.CreateStoreRequest;
 import com.foodlab.foodReservation.store.dto.response.CreateStoreResponse;
+import com.foodlab.foodReservation.store.dto.response.StoreDetailWithItemsResponse;
 import com.foodlab.foodReservation.store.dto.response.StoreListResponse;
 import com.foodlab.foodReservation.store.entity.Store;
 import com.foodlab.foodReservation.store.repository.StoreRepository;
@@ -35,6 +37,9 @@ class StoreServiceTest {
 
     @Mock
     StoreRepository storeRepository;
+
+    @Mock
+    ItemRepository itemRepository;
 
     @Mock
     SellerRepository sellerRepository;
@@ -147,5 +152,26 @@ class StoreServiceTest {
         assertEquals(results.getContent().get(5), storePage.getContent().get(5));
 
     }
+
+    @DisplayName("Store 상세정보, Item 리스트 - 조회 성공")
+    @Test
+    void getStoreDetailWithItems() {
+
+        // given
+        Pageable pageable = PageRequest.of(0, 10);
+        List<StoreDetailWithItemsResponse> storeWithItemsDto = new ArrayList<>();
+        for (long i = 0; i < 10; i++) {
+            storeWithItemsDto.add(new StoreDetailWithItemsResponse(1L, "store_name_"+i, "address_"+i, i, "item_name_"+i, (int) i));
+        }
+        Page<StoreDetailWithItemsResponse> storeDetailWithItems = new PageImpl<>(storeWithItemsDto);
+
+        // when
+        when(itemRepository.getItems(1L, pageable)).thenReturn(storeDetailWithItems);
+        Page<StoreDetailWithItemsResponse> results = itemRepository.getItems(1L, pageable);
+
+        // then
+        assertEquals(results.getContent().get(5), storeDetailWithItems.getContent().get(5));
+
+     }
 
 }

@@ -15,7 +15,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 
 @RestController
@@ -44,6 +43,11 @@ public class StoreController {
     @GetMapping("/stores")
     public Page<StoreListResponse> stores(@PageableDefault(page = 0, size = 10) Pageable pageable) {
         return storeService.getStores(pageable);
+    }
+
+    @GetMapping("/store/{storeId}")
+    public Page<StoreDetailWithItemsResponse> storeWithItems(@PathVariable Long storeId, @PageableDefault Pageable pageable) {
+        return storeService.getStoreWithItems(storeId, pageable);
     }
 
 }

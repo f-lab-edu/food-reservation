@@ -1,6 +1,7 @@
 package com.foodlab.foodReservation.store.service;
 
 import com.foodlab.foodReservation.common.Address;
+import com.foodlab.foodReservation.item.repository.ItemRepository;
 import com.foodlab.foodReservation.seller.entity.Seller;
 import com.foodlab.foodReservation.seller.repository.SellerRepository;
 import com.foodlab.foodReservation.store.dto.request.CreateStoreRequest;
@@ -20,6 +21,7 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
     private final SellerRepository sellerRepository;
+    private final ItemRepository itemRepository;
 
     @Transactional
     public UpdateStoreResponse updateStore(Long storeId, UpdateStoreRequest updateStoreRequest) {
@@ -65,6 +67,12 @@ public class StoreService {
 
     public Page<StoreListResponse> getStores(Pageable pageable) {
         return storeRepository.getStores(pageable);
+    }
+
+    public Page<StoreDetailWithItemsResponse> getStoreWithItems(Long storeId, Pageable pageable) {
+        Store store = storeRepository.findById(storeId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 매장입니다."));
+        return itemRepository.getItems(storeId, pageable);
     }
 
 }
