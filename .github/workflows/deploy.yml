@@ -27,14 +27,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Copy script, docker compose files
+      - name: Copy script, docker compose files, nginx configuration file
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: "script/prod.sh,docker-compose-prod.yml"
+          source: "script/prod.sh,docker-compose-prod.yml,nginx/nginx.conf"
           target: "food-reservation"
 
       - name: Docker compose up
